@@ -19,11 +19,11 @@ struct WeatherViewController :View {
     
     init(weatherViewModel: WeatherViewModel) {
         self.weatherViewModel = weatherViewModel
-        
-        print("here is the data: \(weatherViewModel.weatherData)")
+    
     }
     
-
+    
+    
     
     var body: some View{
         NavigationView {
@@ -47,17 +47,16 @@ struct WeatherViewController :View {
                             .cornerRadius(5)
                         
                     }
-                   
+                    
                 }
                 
                 Spacer()
                 
                 
-                              // List to display the weather data
-                              List(weatherViewModel.weatherData, id: \.id) { weather in
-                                  Text("\(weather.location): \(weather.weather)")
-                              }
-                
+                // List to display the weather data
+//                List(weatherViewModel.weatherData, id: \.id) { weather in
+//                    Text("\(weather.location ?? "Unknown"): \(weather.weather ?? "No data")")
+//                }
                 
                 Button{
                     
