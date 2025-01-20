@@ -1,0 +1,66 @@
+# User-specific files
+*.xcuserstate
+*.xcuserdata/
+
+# Derived data
+DerivedData/
+build/
+
+# Xcode-specific
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/report.junit
+
+# Archives
+*.xcarchive
+
+# Playground
+timeline.xctimeline
+playground.xcworkspace
+
+# Xcode Shared Data
+xcshareddata/
+
+# Environment variables and sensitive files
+.env
+*.key
+
+# Dependency managers
+Cartfile.resolved
+Package.resolved
+
+# Temporary files
+*.tmp
+*.swp
+*.DS_Store
+*.log
+
+# Editor settings
+.idea/
+.vscode/
