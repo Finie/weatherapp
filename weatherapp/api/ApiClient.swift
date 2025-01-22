@@ -51,22 +51,19 @@ class ApiClient{
                 completion(.failure(error))
                 return
             }
-            
-            
-   
+    
             
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(NSError(domain: "InvalidResponse", code: -2, userInfo: nil)))
                 return
             }
+           
             
             guard let data = data else {
                 completion(.failure(NSError(domain: "NoData", code: -3, userInfo: nil)))
                 return
             }
             
-            
-        
             
             let decoder = JSONDecoder()
 //            decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -81,9 +78,5 @@ class ApiClient{
             }
             
         }.resume()
-        
-        
     }
-    
-    
 }

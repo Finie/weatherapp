@@ -46,15 +46,6 @@ struct Main: Codable {
     let humidity: Int
     let sea_level: Int
     let grnd_level: Int
-
-//    enum CodingKeys: String, CodingKey {
-//        case temp, pressure, humidity
-//        case feelsLike = "feels_like"
-//        case tempMin = "temp_min"
-//        case tempMax = "temp_max"
-//        case seaLevel = "sea_level"
-//        case grndLevel = "grnd_level"
-//    }
 }
 
  
