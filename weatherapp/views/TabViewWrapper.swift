@@ -11,12 +11,14 @@ struct TabViewWrapper: View {
     
     @ObservedObject var locationViewModel: LocationViewModel
     @ObservedObject var apiViewModel: ApiViewModel
-    @ObservedObject var storeViewModel: StoreViewModel
+    @ObservedObject var storeViewModel: StoreViewModel 
     
     
     
     var body: some View {
         
+        let favouriteViewModel = FavouriteViewModel(storeViewModel: storeViewModel) // Create FavouriteViewModel
+               
         VStack {
             
             TabView {
@@ -25,15 +27,13 @@ struct TabViewWrapper: View {
                     Text("Home")
                 }
                 // Map tab
-                MapContainerView(locationViewModel: locationViewModel)
+                MapContainerView(locationViewModel: locationViewModel, storeViewModel: storeViewModel)
                     .tabItem {
                         Image(systemName: "map")
                         Text("Favourites")
                     }
                 
-                
-                
-                SettingsView().tabItem {
+                SettingsView(favouriteViewModel: favouriteViewModel).tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
@@ -48,6 +48,7 @@ struct TabViewContainer_Previews: PreviewProvider {
         let mockViewModel = LocationViewModel()
         let apiMockViewModel = ApiViewModel()
         let storeMockViewModel = StoreViewModel()
+        
         TabViewWrapper(locationViewModel: mockViewModel, apiViewModel:  apiMockViewModel, storeViewModel: storeMockViewModel)
     }
 }

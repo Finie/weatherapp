@@ -17,14 +17,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        checkAuthorizationStatus()
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        requestLocationAccess()
     }
     
-    // Check the authorization status before requesting permission
-    func checkAuthorizationStatus() {
-        processStatusUpdate(Status: locationManager.authorizationStatus)
-    }
     
     
     // Request access to location
@@ -39,20 +35,22 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func startUpdatingLocation() {
         // Start receiving location updates
         locationManager.startUpdatingLocation()
+        print("Starting location update....")
     }
     
     
     func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
+        print("Stopping location update....")
     }
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let loc = locations.last {
-            DispatchQueue.main.async {
-                self.location = loc.coordinate
-            }
+            self.location = loc.coordinate
+            stopUpdatingLocation()
         }
+        
     }
     
     
@@ -64,29 +62,23 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // Handle changes in location authorization status
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        processStatusUpdate(Status: status)
-        
-    }
-    
-    
-    func processStatusUpdate(Status status: CLAuthorizationStatus) {
         
         switch status {
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            requestLocationAccess()
         case .restricted, .denied:
-            DispatchQueue.main.async {
-                self.errorMessage = "Location access is denied. Please enable it in Settings."
-            }
+            self.errorMessage = "Location access is denied. Please enable it in Settings."
+            
         case .authorizedWhenInUse, .authorizedAlways:
             startUpdatingLocation()
         @unknown default:
-            DispatchQueue.main.async {
-                self.errorMessage = "Unknown location authorization status."
-            }
+            self.errorMessage = "Unknown location authorization status."
+            
         }
         
     }
+    
+    
     
     
 }

@@ -8,7 +8,22 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
+    @ObservedObject var favouriteViewModel: FavouriteViewModel
+
+    
+    
     var body: some View {
-        Text("SettingsView")
+ 
+        
+        VStack{
+//            Text("SettingsView")
+       
+            List(favouriteViewModel.favouriteLocations, id: \.id) { location in
+                Text("\(location.name ?? "Unavailable")")
+            }
+        }.onAppear {
+            favouriteViewModel.fetchFavouriteLocations()
+        }
     }
 }

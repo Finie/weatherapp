@@ -10,7 +10,10 @@ import GoogleMaps
 import CoreLocation
 
 public struct MapView: UIViewRepresentable {
+    
+    
     @ObservedObject var locationViewModel: LocationViewModel
+    
     var previousLocation: CLLocationCoordinate2D?
     var locations: [CLLocationCoordinate2D]
     
@@ -32,13 +35,14 @@ public struct MapView: UIViewRepresentable {
         }
         
         if let currentLocation = locationViewModel.currentLocation {
+            
             let currentLocationMarker = GMSMarker(position: currentLocation)
             currentLocationMarker.title = "You 📍"
             currentLocationMarker.map = mapView
             
             let camera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude,
                                                   longitude: currentLocation.longitude,
-                                                  zoom: 14.0)
+                                                  zoom: 6.0)
             mapView.animate(to: camera)
         }
         
@@ -47,7 +51,7 @@ public struct MapView: UIViewRepresentable {
     
     public func updateUIView(_ uiView: GMSMapView, context: Context) {
      
-        uiView.clear()
+//        uiView.clear()
         
         for location in locations {
             let marker = GMSMarker(position: location)

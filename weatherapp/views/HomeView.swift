@@ -32,27 +32,31 @@ struct HomeView: View {
             
             
             
-            Text(homeViewModel.weatherResponse?.name ?? "unavailable")
+            Text("Location name: \(homeViewModel.activeLocationData?.name ?? "unavailable")")
                 .font(.body)
                 .fontWeight(.heavy)
                 .padding(.all, 16)
             
             
-            Text("Feels like: \(homeViewModel.weatherResponse?.main.feels_like ?? 0.0)°c")
+            Text("Feels like: \(homeViewModel.activeWeatherData?.feelsLike ?? 0.0)°c")
                 .font(.body)
                 .fontWeight(.heavy)
                 .padding(.all, 16)
             
-            Text("Condition: \(homeViewModel.weatherResponse?.weather[0].main ?? "loading...")")
+            Text("Weather: \(homeViewModel.activeWeatherData?.weather ?? "Loading...")")
                 .font(.body)
                 .fontWeight(.heavy)
                 .padding(.all, 16)
             
             
-            Text("forecast: \(homeViewModel.forecastData?.city.name ?? "Loading...")")
+            
+            Text("Condition: \(homeViewModel.activeWeatherData?.condition ?? "loading...")")
                 .font(.body)
                 .fontWeight(.heavy)
                 .padding(.all, 16)
+            
+            
+    
             
             
         }.onAppear(){

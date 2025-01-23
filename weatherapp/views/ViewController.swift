@@ -16,11 +16,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // Create an instance of ViewModel
-        // let weatherViewModel = WeatherViewModel()
+    
         let locationViewModel = LocationViewModel()
         let apiViewModel = ApiViewModel()
         let storeViewModel = StoreViewModel()
-    
+        
+        
         let tabViewWrapper = TabViewWrapper(locationViewModel: locationViewModel, apiViewModel: apiViewModel, storeViewModel: storeViewModel)
         
         // Embed the SwiftUI view in a UIHostingController

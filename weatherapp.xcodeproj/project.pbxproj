@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		30C77F752D40145C004DD0D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F702D40145C004DD0D0 /* ViewController.swift */; };
 		30C77F762D40145C004DD0D0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F6E2D40145C004DD0D0 /* SettingsView.swift */; };
-		30C77F772D40145C004DD0D0 /* WeatherDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F732D40145C004DD0D0 /* WeatherDataStore.xcdatamodeld */; };
+		30C77F772D40145C004DD0D0 /* weatherapp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F732D40145C004DD0D0 /* weatherapp.xcdatamodeld */; };
 		30C77F782D40145C004DD0D0 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F652D40145C004DD0D0 /* LocationManager.swift */; };
 		30C77F792D40145C004DD0D0 /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F6A2D40145C004DD0D0 /* StoreViewModel.swift */; };
 		30C77F7A2D40145C004DD0D0 /* TabViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C77F6F2D40145C004DD0D0 /* TabViewWrapper.swift */; };
@@ -33,6 +33,8 @@
 		30E64A822D40A4F7002C5725 /* MapContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E64A812D40A4F5002C5725 /* MapContainerView.swift */; };
 		30E64A892D40CBB5002C5725 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E64A882D40CBB3002C5725 /* HomeViewModel.swift */; };
 		30E64A8F2D410DFB002C5725 /* CustomPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E64A8E2D410DF1002C5725 /* CustomPopUp.swift */; };
+		30E64A932D423092002C5725 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E64A922D42308C002C5725 /* MapViewModel.swift */; };
+		30E64A992D428192002C5725 /* FavouriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E64A982D428183002C5725 /* FavouriteViewModel.swift */; };
 		3D03FCCF60776CAA02B8A4C1 /* Pods_weatherapp_weatherappUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9711A781A6323F1AC54A5B /* Pods_weatherapp_weatherappUITests.framework */; };
 		797210000A3760B8D99918AB /* Pods_weatherapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE1D84C425263A4C12D547CA /* Pods_weatherapp.framework */; };
 		EEA481757AF4C51846F66134 /* Pods_weatherappTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B16C2C28D41F89E829441D9D /* Pods_weatherappTests.framework */; };
@@ -84,6 +86,8 @@
 		30E64A812D40A4F5002C5725 /* MapContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainerView.swift; sourceTree = "<group>"; };
 		30E64A882D40CBB3002C5725 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		30E64A8E2D410DF1002C5725 /* CustomPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUp.swift; sourceTree = "<group>"; };
+		30E64A922D42308C002C5725 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		30E64A982D428183002C5725 /* FavouriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteViewModel.swift; sourceTree = "<group>"; };
 		30E6F2052D3B47E500342BE5 /* weatherapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = weatherapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E6F21E2D3B47E600342BE5 /* weatherappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = weatherappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E6F2282D3B47E600342BE5 /* weatherappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = weatherappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +178,8 @@
 		30C77F6B2D40145C004DD0D0 /* viewmodels */ = {
 			isa = PBXGroup;
 			children = (
+				30E64A982D428183002C5725 /* FavouriteViewModel.swift */,
+				30E64A922D42308C002C5725 /* MapViewModel.swift */,
 				30E64A882D40CBB3002C5725 /* HomeViewModel.swift */,
 				30C77F682D40145C004DD0D0 /* ApiViewModel.swift */,
 				30C77F692D40145C004DD0D0 /* LocationViewModel.swift */,
@@ -231,7 +237,7 @@
 				30C77F672D40145C004DD0D0 /* utils */,
 				30C77F6B2D40145C004DD0D0 /* viewmodels */,
 				30C77F722D40145C004DD0D0 /* views */,
-				30C77F732D40145C004DD0D0 /* WeatherDataStore.xcdatamodeld */,
+				30C77F732D40145C004DD0D0 /* weatherapp.xcdatamodeld */,
 			);
 			path = weatherapp;
 			sourceTree = "<group>";
@@ -518,7 +524,7 @@
 			files = (
 				30C77F752D40145C004DD0D0 /* ViewController.swift in Sources */,
 				30C77F762D40145C004DD0D0 /* SettingsView.swift in Sources */,
-				30C77F772D40145C004DD0D0 /* WeatherDataStore.xcdatamodeld in Sources */,
+				30C77F772D40145C004DD0D0 /* weatherapp.xcdatamodeld in Sources */,
 				30C77F782D40145C004DD0D0 /* LocationManager.swift in Sources */,
 				30C77F792D40145C004DD0D0 /* StoreViewModel.swift in Sources */,
 				30C77F7A2D40145C004DD0D0 /* TabViewWrapper.swift in Sources */,
@@ -533,8 +539,10 @@
 				30C77F812D40145C004DD0D0 /* HomeView.swift in Sources */,
 				30C77F822D40145C004DD0D0 /* SceneDelegate.swift in Sources */,
 				30C77F832D40145C004DD0D0 /* MapView.swift in Sources */,
+				30E64A932D423092002C5725 /* MapViewModel.swift in Sources */,
 				30E64A892D40CBB5002C5725 /* HomeViewModel.swift in Sources */,
 				30C77F842D40145C004DD0D0 /* WeatherResponse.swift in Sources */,
+				30E64A992D428192002C5725 /* FavouriteViewModel.swift in Sources */,
 				30C77F852D40145C004DD0D0 /* ApiViewModel.swift in Sources */,
 				30C77F862D40145C004DD0D0 /* PersistenceController.swift in Sources */,
 			);
@@ -897,13 +905,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		30C77F732D40145C004DD0D0 /* WeatherDataStore.xcdatamodeld */ = {
+		30C77F732D40145C004DD0D0 /* weatherapp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				30C77F742D40145C004DD0D0 /* weatherapp.xcdatamodel */,
 			);
 			currentVersion = 30C77F742D40145C004DD0D0 /* weatherapp.xcdatamodel */;
-			path = WeatherDataStore.xcdatamodeld;
+			path = weatherapp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

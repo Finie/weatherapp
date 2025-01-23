@@ -11,20 +11,30 @@ import GooglePlaces
 
 struct MapContainerView: View {
     @ObservedObject var locationViewModel = LocationViewModel()
+    
+    @StateObject var mapViewModel: MapViewModel
+    
+    
     @State private var searchText = ""
     @State private var predictions: [GMSAutocompletePrediction] = []
     @State private var selectedPlace: CLLocationCoordinate2D?
     @State private var selectedPlaceName: String?
+    
     private let placesClient = GMSPlacesClient.shared()
     
     @State private var isPopupPresented = false
     
     
+    init (locationViewModel: LocationViewModel, storeViewModel: StoreViewModel) {
+        _mapViewModel = StateObject(wrappedValue: MapViewModel(storeViewModel: storeViewModel))
+        self.locationViewModel = locationViewModel
+    }
+    
     var body: some View {
         ZStack {
             MapView(
                 locationViewModel: locationViewModel,
-                locations: locationViewModel.getLocationArray(),
+                locations: mapViewModel.locationArray,
                 selectedPlace: selectedPlace
             )
             .edgesIgnoringSafeArea(.top)
@@ -32,9 +42,12 @@ struct MapContainerView: View {
             VStack {
                 VStack(spacing: 0) {
                     HStack {
-                        TextField("Search for a location", text: $searchText, onCommit: {
+                        TextField("Search for a location", text: $searchText,
+                                  onCommit: {
                             fetchPredictions()
-                        })
+                        }).onChange(of: searchText) { newValue in
+                            fetchPredictions()
+                        }
                         .padding()
                         .background(Color.white)
                         .cornerRadius(30)
@@ -64,7 +77,8 @@ struct MapContainerView: View {
                                 }
                             }
                             .onTapGesture {
-                                selectPrediction(prediction)
+                                self.searchText = ""
+                                self.selectPrediction(prediction)
                             }
                         }
                         .frame(maxHeight: 400)
@@ -114,6 +128,7 @@ struct MapContainerView: View {
                     Spacer()
                     Button(action: {
                         isPopupPresented = false
+                        saveToFavourites()
                     }) {
                         HStack {
                             Image(systemName:   "heart"  )
@@ -127,19 +142,18 @@ struct MapContainerView: View {
                     } .background(Color.blue)
                         .cornerRadius(8)
                 }.padding(.top, 10)
-                   
+                
                 
             }.padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
-            .alignmentGuide(.leading) { d in d[.leading] }
+                .background(Color.white)
+                .cornerRadius(10)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
+                .alignmentGuide(.leading) { d in d[.leading] }
             
             
         }
     }
     
-    // Fetch predictions as user types
     private func fetchPredictions() {
         guard !searchText.isEmpty else {
             predictions.removeAll()
@@ -147,7 +161,7 @@ struct MapContainerView: View {
         }
         
         let filter = GMSAutocompleteFilter()
-        filter.types = [] // Customize filter as needed
+        filter.types = []
         
         placesClient.findAutocompletePredictions(fromQuery: searchText, filter: filter, sessionToken: nil) { results, error in
             if let error = error {
@@ -172,7 +186,6 @@ struct MapContainerView: View {
         placesClient.fetchPlace(fromPlaceID: placeID, placeFields: placeFields, sessionToken: nil) { place, error in
             
             if let error = error {
-                
                 // display This Error if encountered
                 print("Error fetching place details: \(error.localizedDescription)")
                 return
@@ -184,5 +197,18 @@ struct MapContainerView: View {
                 selectedPlace = place.coordinate
             }
         }
+    }
+    
+    
+    private func saveToFavourites() {
+        
+        if let latitude = selectedPlace?.latitude,
+           let longitude = selectedPlace?.longitude,
+           let placeName = selectedPlaceName {
+            mapViewModel.addFavouriteLocation(Name: placeName, Latitude: latitude, Longitude: longitude)
+        } else {
+            print("Error: Latitude or Longitude is nil.")
+        }
+        
     }
 }
