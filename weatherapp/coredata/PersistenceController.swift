@@ -16,7 +16,7 @@ struct PersistenceController {
     }
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "WeatherDataStore")
+        container = NSPersistentContainer(name: "weatherapp")
         
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
