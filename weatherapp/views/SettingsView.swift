@@ -10,20 +10,36 @@ import SwiftUI
 struct SettingsView: View {
     
     @ObservedObject var favouriteViewModel: FavouriteViewModel
-
     
     
     var body: some View {
- 
         
-        VStack{
-//            Text("SettingsView")
-       
-            List(favouriteViewModel.favouriteLocations, id: \.id) { location in
-                Text("\(location.name ?? "Unavailable")")
+        NavigationView { // Add NavigationView
+            VStack {
+                List {
+                    ForEach(favouriteViewModel.favouriteLocations, id: \.id) {
+                        location in
+                        
+                        FavouriteLocationRow(location: location)
+                        
+                    }
+                    .onDelete { indexSet in
+                        if let index = indexSet.first {
+                            let location = favouriteViewModel.favouriteLocations[index]
+                            if let locationId = location.id {
+                                favouriteViewModel.deleteLocation(Byid: locationId)
+                            }
+                        }
+                        
+                    }
+                }
+                .listStyle(InsetGroupedListStyle())
             }
-        }.onAppear {
-            favouriteViewModel.fetchFavouriteLocations()
+            .onAppear {
+                favouriteViewModel.fetchFavouriteLocations()
+            }
+            .navigationTitle("Favourite")
         }
+        
     }
 }

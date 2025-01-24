@@ -20,7 +20,6 @@ struct TabViewWrapper: View {
         let favouriteViewModel = FavouriteViewModel(storeViewModel: storeViewModel) // Create FavouriteViewModel
                
         VStack {
-            
             TabView {
                 HomeView(locationViewModel: locationViewModel, apiViewModel: apiViewModel, storeViewModel: storeViewModel).tabItem {
                     Image(systemName: "house")

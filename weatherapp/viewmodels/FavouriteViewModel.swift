@@ -20,8 +20,16 @@ class FavouriteViewModel: ObservableObject {
     
     
     
+    
+    
+    
     func fetchFavouriteLocations() {
         self.favouriteLocations = storeViewModel.locationData
+    }
+    
+    
+    func deleteLocation(Byid id: UUID){
+        storeViewModel.deleteLocation(byId: id)
     }
     
 }

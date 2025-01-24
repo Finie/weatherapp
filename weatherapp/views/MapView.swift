@@ -50,8 +50,6 @@ public struct MapView: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: GMSMapView, context: Context) {
-     
-//        uiView.clear()
         
         for location in locations {
             let marker = GMSMarker(position: location)

@@ -49,7 +49,8 @@ struct MapContainerView: View {
                             fetchPredictions()
                         }
                         .padding()
-                        .background(Color.white)
+                        .background(Color(UIColor.systemBackground)) // Adapts to dark mode
+                        .foregroundColor(.primary) // Adapts text color
                         .cornerRadius(30)
                         .shadow(radius: 3)
                         Button(action: {
@@ -79,6 +80,7 @@ struct MapContainerView: View {
                             .onTapGesture {
                                 self.searchText = ""
                                 self.selectPrediction(prediction)
+                                UIApplication.shared.endEditing()
                             }
                         }
                         .frame(maxHeight: 400)
@@ -91,7 +93,8 @@ struct MapContainerView: View {
                 
                 Spacer()
             }
-        }.customPopup(isPresented: $isPopupPresented) {
+        }
+        .customPopup(isPresented: $isPopupPresented) {
             VStack{
                 
                 Text("Would you like to save this location to your favorites!")
@@ -104,13 +107,13 @@ struct MapContainerView: View {
                 VStack{
                     Text("\(selectedPlaceName ?? "Unkwown")")
                         .font(.body)
-                        .foregroundColor(Color.black.opacity(0.5))
+                        .foregroundColor(.secondary)
                         .fontWeight(.bold)
                         .padding()
                     
-                    Text("Latitude \(selectedPlace?.latitude ?? 0.0)\nLongitude \(selectedPlace?.longitude ?? 0.0)")
+                    Text("Latitude \(String(format: "%.2f", selectedPlace?.latitude ?? 0.0))\nLongitude \(String(format: "%.2f", selectedPlace?.longitude ?? 0.0))")
                         .font(.caption)
-                        .foregroundColor(Color.gray.opacity(0.7))
+                        .foregroundColor(.secondary)
                         .fontWeight(.bold)
                     
                     
@@ -122,7 +125,7 @@ struct MapContainerView: View {
                         Text("Dismiss")
                             .foregroundColor(.blue)
                             .padding()
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(8)
                     }
                     Spacer()
@@ -143,14 +146,11 @@ struct MapContainerView: View {
                         .cornerRadius(8)
                 }.padding(.top, 10)
                 
-                
             }.padding()
-                .background(Color.white)
+                .background(Color(UIColor.systemBackground))
                 .cornerRadius(10)
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                 .alignmentGuide(.leading) { d in d[.leading] }
-            
-            
         }
     }
     
@@ -176,7 +176,6 @@ struct MapContainerView: View {
     
     private func selectPrediction(_ prediction: GMSAutocompletePrediction) {
         fetchPlaceDetails(for: prediction.placeID)
-        searchText = prediction.attributedPrimaryText.string
         predictions.removeAll()
     }
     

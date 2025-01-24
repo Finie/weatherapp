@@ -11,8 +11,7 @@ import CoreData
 class StoreViewModel: ObservableObject {
     private let viewContext = PersistenceController.shared.viewContext
     
-    private var errorMessage: String?
-    
+    @Published var errorMessage: String?
     @Published var weatherData: [WeatherDataStore]? = []
     @Published var locationData: [LocationDataStore] = []
     @Published var activeLocation: LocationDataStore?
@@ -45,6 +44,9 @@ class StoreViewModel: ObservableObject {
             self.errorMessage = "Error fetching active location data: \(error)"
         }
     }
+    
+    
+    
     
     
     
@@ -93,15 +95,14 @@ class StoreViewModel: ObservableObject {
     func fetchLocationData(){
         let fetchRequest: NSFetchRequest<LocationDataStore> = LocationDataStore.fetchRequest()
         do{
-            locationData = try viewContext.fetch(fetchRequest)
+            self.locationData = try viewContext.fetch(fetchRequest)
             print("Location Count: \(locationData.count)")
         }catch{
- 
-                self.errorMessage = "Failed to load data \(error.localizedDescription)"
- 
+            
+            self.errorMessage = "Failed to load data \(error.localizedDescription)"
+            
         }
     }
-    
     
     
     func fetchWeatherData() {
@@ -109,11 +110,37 @@ class StoreViewModel: ObservableObject {
         do {
             weatherData = try viewContext.fetch(fetchRequest)
         }catch{
- 
-                self.errorMessage = "Failed to load data \(error.localizedDescription)"
- 
+            
+            self.errorMessage = "Failed to load data \(error.localizedDescription)"
+            
         }
     }
+    
+    
+    
+    func deleteLocation(byId id: UUID) {
+        let fetchRequest: NSFetchRequest<LocationDataStore> = LocationDataStore.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            let locationsToDelete = try viewContext.fetch(fetchRequest)
+            
+            if let location = locationsToDelete.first {
+                // Delete the object
+                viewContext.delete(location)
+                
+                // Save context
+                try viewContext.save()
+                print("Location deleted successfully.")
+            } else {
+                print("Location not found.")
+            }
+        } catch {
+            print("Error deleting location: \(error)")
+        }
+    }
+    
+    
     
     func addLocationData(
         LocationId locationId: UUID,
@@ -122,42 +149,42 @@ class StoreViewModel: ObservableObject {
         Longitude longitude: Double,
         Active active: Bool,
         IsFavourite isFavourite:Bool,
-        LastUpdated lastUpdated: Date) -> LocationDataStore {
-        
-        if let activeLocation = activeLocation {
+        LastUpdated lastUpdated: Date) {
             
-            activeLocation.name = name
-            activeLocation.latitude = latitude
-            activeLocation.longitude = longitude
-            activeLocation.active = active
-            activeLocation.lastUpdated = lastUpdated
-            activeLocation.isFavourite = isFavourite
+            if let activeLocation = activeLocation {
+                
+                activeLocation.name = name
+                activeLocation.latitude = latitude
+                activeLocation.longitude = longitude
+                activeLocation.active = active
+                activeLocation.lastUpdated = lastUpdated
+                activeLocation.isFavourite = isFavourite
+                
+                save()
+                fetchLocationData()
+                fetchActiveLocationData()
+                
+                print("Location Updated...")
+                return
+            }
             
+            
+            
+            let newLocationData = LocationDataStore(context: viewContext)
+            newLocationData.id = locationId
+            newLocationData.name = name
+            newLocationData.active = active
+            newLocationData.latitude = latitude
+            newLocationData.longitude = longitude
+            newLocationData.lastUpdated = lastUpdated
+            newLocationData.isFavourite = isFavourite
             
             save()
             fetchLocationData()
+            fetchActiveLocationData()
             
-            print("Updated active location: \(activeLocation)")
-            return activeLocation
+            print("New location created...")
         }
-        
-        
-        
-        let newLocationData = LocationDataStore(context: viewContext)
-        newLocationData.id = locationId
-        newLocationData.name = name
-        newLocationData.active = active
-        newLocationData.latitude = latitude
-        newLocationData.longitude = longitude
-        newLocationData.lastUpdated = lastUpdated
-        newLocationData.isFavourite = isFavourite
-        
-        save()
-        fetchLocationData()
-        
-        print("New active location \(newLocationData)")
-        return newLocationData
-    }
     
     
     
@@ -170,7 +197,7 @@ class StoreViewModel: ObservableObject {
                         MinTemp minTemp: Double,
                         IsActiveData isActiveData: Bool,
                         LocationId locationId: UUID,
-                        Date date: String) -> WeatherDataStore {
+                        Date date: String) {
         
         if let activeWeather = activeWeather {
             
@@ -185,8 +212,9 @@ class StoreViewModel: ObservableObject {
             
             save()
             fetchWeatherData()
+            fetchActiveWeatherData()
             
-            return activeWeather
+            return
         }
         
         
@@ -204,8 +232,7 @@ class StoreViewModel: ObservableObject {
         
         save()
         fetchWeatherData()
-        
-        return newweather
+        fetchActiveWeatherData()
         
     }
     
@@ -267,21 +294,21 @@ class StoreViewModel: ObservableObject {
         Active active: Bool,
         IsFavourite isFavourite:Bool,
         LastUpdated lastUpdated: Date) {
-        
-        
-        let newLocationData = LocationDataStore(context: viewContext)
-        newLocationData.id = locationId
-        newLocationData.name = name
-        newLocationData.active = active
-        newLocationData.latitude = latitude
-        newLocationData.longitude = longitude
-        newLocationData.lastUpdated = lastUpdated
-        newLocationData.isFavourite = isFavourite
-        
-        save()
-        fetchLocationData()
-        print("Added new favourite location \(newLocationData)")
-    }
+            
+            
+            let newLocationData = LocationDataStore(context: viewContext)
+            newLocationData.id = locationId
+            newLocationData.name = name
+            newLocationData.active = active
+            newLocationData.latitude = latitude
+            newLocationData.longitude = longitude
+            newLocationData.lastUpdated = lastUpdated
+            newLocationData.isFavourite = isFavourite
+            
+            save()
+            fetchLocationData()
+            print("Added new favourite location \(newLocationData)")
+        }
     
     
     
@@ -291,7 +318,7 @@ class StoreViewModel: ObservableObject {
             try viewContext.save()
         } catch {
             print("Saving Failed: \(error.localizedDescription)")
-                self.errorMessage = "Store Failed: \(error.localizedDescription)"
+            self.errorMessage = "Store Failed: \(error.localizedDescription)"
         }
     }
 }
